@@ -3,7 +3,6 @@
     private static void Main()
     {
         Dictionary<int, List<Entity>> resultDict = new Dictionary<int, List<Entity>>();
-
         Entity first = new Entity(1, 0, "Root entity");
         Entity second = new Entity(2, 1, "Child of 1 entity");
         Entity third = new Entity(3, 1, "Child of 1 entity");
