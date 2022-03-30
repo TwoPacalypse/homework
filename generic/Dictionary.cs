@@ -17,7 +17,7 @@
         entityList.Add(fourth);
         entityList.Add(fifth);
 
-        first.ToDict(entityList, resultDict);
+        resultDict = first.ToDict(entityList);
 
         foreach (var gr in resultDict)
         {
@@ -44,13 +44,15 @@ public class Entity
         Name = name;
     }
 
-    public void ToDict(List<Entity> entityList, Dictionary<int, List<Entity>> dict)
+    public Dictionary<int, List<Entity>> ToDict(List<Entity> entityList)
     {
+        Dictionary<int, List<Entity>> dict = new Dictionary<int, List<Entity>>();
         var result = entityList.GroupBy(p => p.ParentId);
         foreach (var group in result)
         {
             var list = group.ToList();
             dict.Add(group.Key, list);
         }
+        return dict;
     }
 }
