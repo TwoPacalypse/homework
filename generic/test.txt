@@ -1,4 +1,3 @@
-
 [Info]: [String] : test test test
-[Warning]: [Int32] : 45
-[Error]: [Int32] : 5. Attempted to divide by zero.
+[Warning]: [Int32] : testing warning
+[Error]: [Int32] : deviding by zero. Attempted to divide by zero.

@@ -10,57 +10,63 @@ namespace generic
     {
         private static void Main()
         {
-            LocalFileLogger<string> infoTest = new LocalFileLogger<string>();
+            string link = "..\\..\\..\\test.txt";
+
+            LocalFileLogger<string> infoTest = new LocalFileLogger<string>(link);
             infoTest.Message = "test test test";
             infoTest.LogInfo(infoTest.Message);
 
-            LocalFileLogger<int> warningTest = new LocalFileLogger<int>();
-            warningTest.Message = 45;
+            LocalFileLogger<int> warningTest = new LocalFileLogger<int>(link);
+            warningTest.Message = "testing warning";
             warningTest.LogWarning(warningTest.Message);
 
-            LocalFileLogger<int> errorTest = new LocalFileLogger<int>();
+            LocalFileLogger<int> errorTest = new LocalFileLogger<int>(link);
             try
             {
-                errorTest.Message = 5;
-                int y = errorTest.Message / 0;
+                var x = 5;
+                int y = x / 0;
             }
             catch (Exception ex)
             {
+                errorTest.Message = "deviding by zero";
                 errorTest.LogError(errorTest.Message, ex);
             }
         }
     }
 
-    public interface ILogger<T>
+    public interface ILogger
     {
-        T Message { get; set; }
-
-        public void LogInfo(T message);
-        public void LogWarning(T message);
-        public void LogError(T message, Exception ex);
+        public void LogInfo(string message);
+        public void LogWarning(string message);
+        public void LogError(string message, Exception ex);
     }
 
-    public class LocalFileLogger<T> : ILogger<T>
+    public class LocalFileLogger<T> : ILogger
     {
-        public StreamWriter f = new StreamWriter("..\\..\\..\\test.txt", true);
+        private string link;
+       
         string? GenericTypeName { get; set; }
-        public LocalFileLogger()
+        public LocalFileLogger(string link_)
         {
+            this.link = link_;
             GenericTypeName = typeof(T).Name;
         }
-        public T? Message { get; set; }
-        public void LogInfo(T message)
+        public string Message { get; set; }
+        public void LogInfo(string message)
         {
+            StreamWriter f = new StreamWriter(this.link, true);
             f.WriteLine($"[Info]: [{GenericTypeName}] : {message}");
             f.Close();
         }
-        public void LogWarning(T message)
+        public void LogWarning(string message)
         {
+            StreamWriter f = new StreamWriter(this.link, true);
             f.WriteLine($"[Warning]: [{GenericTypeName}] : {message}");
             f.Close();
         }
-        public void LogError(T message, Exception ex)
+        public void LogError(string message, Exception ex)
         {
+            StreamWriter f = new StreamWriter(this.link, true);
             f.WriteLine($"[Error]: [{GenericTypeName}] : {message}. {ex.Message}");
             f.Close();
         }
