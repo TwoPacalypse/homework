@@ -5,7 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject>generic.Program</StartupObject>
+    <StartupObject>generic.MyThread</StartupObject>
   </PropertyGroup>
 
 </Project>
