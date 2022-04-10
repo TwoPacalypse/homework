@@ -38,7 +38,6 @@ namespace generic
                 Console.WriteLine("\nНовый запрос.\nВведите текст запроса для отправки, для выхода - /q");
                 command = Console.ReadLine();
             }
-            Console.WriteLine("Угадал!");
         }
     }
 
