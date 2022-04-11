@@ -78,7 +78,6 @@ namespace generic
             {
                 Console.WriteLine("Сообщение с идентификатором " + arguments.Last() + " упало - " + ex.Message);
             }
-            return Guid.NewGuid().ToString("D");
         }
     }
 }
