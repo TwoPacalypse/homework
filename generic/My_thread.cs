@@ -31,9 +31,8 @@ namespace generic
 
                 args_.Add(Guid.NewGuid().ToString("D"));
                 Console.WriteLine("Будет отправлено сообщение: \""+command+ "\". Идентификатор - "+ args_.Last());
-                Thread myNewThread = new Thread(() => handler.HandleRequest(command, args_.ToArray()));
-                myNewThread.IsBackground = true;
-                myNewThread.Start();
+
+                ThreadPool.QueueUserWorkItem(callBack => handler.GetResponse(command, args_.ToArray()));
 
                 Console.WriteLine("\nНовый запрос.\nВведите текст запроса для отправки, для выхода - /q");
                 command = Console.ReadLine();
@@ -60,17 +59,22 @@ namespace generic
         /// <inheritdoc />
         public string HandleRequest(string message, string[] arguments)
         {
-            try
+            // Притворяемся, что делаем что то.
+            Thread.Sleep(3000);
+            if (message.Contains("упади"))
             {
-                // Притворяемся, что делаем что то.
-                Thread.Sleep(5000);
-                if (message.Contains("упади"))
-                {
-                    throw new Exception("Я упал, как сам просил");
-                }
-                Console.WriteLine("Сообщение с идентификатором " + arguments.Last() + " получило ответ -  " + Guid.NewGuid().ToString("D"));
+                throw new Exception("Я упал, как сам просил");
             }
-            catch(Exception ex)
+            return Guid.NewGuid().ToString("D");
+        }
+
+        public string GetResponse(string message, string[] arguments)
+        {
+            try
+            {            
+                Console.WriteLine("Сообщение с идентификатором " + arguments.Last() + " получило ответ -  " + HandleRequest(message, arguments));
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine("Сообщение с идентификатором " + arguments.Last() + " упало - " + ex.Message);
             }
