@@ -16,7 +16,6 @@ namespace generic
             var command = Console.ReadLine();
             var args_ = new List<string>();
 
-
             while (command != "/q")
             {
                 args_.Clear();
@@ -68,7 +67,7 @@ namespace generic
             return Guid.NewGuid().ToString("D");
         }
 
-        public string GetResponse(string message, string[] arguments)
+        public void GetResponse(string message, string[] arguments)
         {
             try
             {            
