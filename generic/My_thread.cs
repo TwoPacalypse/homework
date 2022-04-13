@@ -31,10 +31,21 @@ namespace generic
                 args_.Add(Guid.NewGuid().ToString("D"));
                 Console.WriteLine("Будет отправлено сообщение: \""+command+ "\". Идентификатор - "+ args_.Last());
 
-                ThreadPool.QueueUserWorkItem(callBack => handler.GetResponse(command, args_.ToArray()));
+                ThreadPool.QueueUserWorkItem(callBack => GetResponse(command, args_.ToArray(), handler));
 
                 Console.WriteLine("\nНовый запрос.\nВведите текст запроса для отправки, для выхода - /q");
                 command = Console.ReadLine();
+            }
+        }
+        public static void GetResponse(string message, string[] arguments, DummyRequestHandler handler)
+        {
+            try
+            {            
+                Console.WriteLine("Сообщение с идентификатором " + arguments.Last() + " получило ответ -  " + handler.HandleRequest(message, arguments));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Сообщение с идентификатором " + arguments.Last() + " упало - " + ex.Message);
             }
         }
     }
@@ -65,18 +76,6 @@ namespace generic
                 throw new Exception("Я упал, как сам просил");
             }
             return Guid.NewGuid().ToString("D");
-        }
-
-        public void GetResponse(string message, string[] arguments)
-        {
-            try
-            {            
-                Console.WriteLine("Сообщение с идентификатором " + arguments.Last() + " получило ответ -  " + HandleRequest(message, arguments));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Сообщение с идентификатором " + arguments.Last() + " упало - " + ex.Message);
-            }
         }
     }
 }
